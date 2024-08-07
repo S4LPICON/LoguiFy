@@ -2,7 +2,7 @@
 login plugin for minecraft java
 
 Comandos:
-/logueo -> abre el inventario de logueo y registro
+/logueo -> abre el inventario de logueo y registro<br>
 /debuginfo -> muestra informacion util para el desarrollo
 
 Info:
