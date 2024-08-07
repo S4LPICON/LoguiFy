@@ -162,7 +162,6 @@ public class LoginManager implements Listener {
             }
 
         } else {player.sendMessage("La contraseña debe tener 5 digitos.");}
-        chestInventory.close();
         return false;
 
     }

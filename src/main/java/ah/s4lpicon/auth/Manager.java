@@ -95,8 +95,10 @@ public class Manager implements Listener{
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         player.getInventory().clear();
-        if(users.get(buscarUsu(player.getName()) ).isLogueado()){
-            users.remove(buscarUsu(player.getName()));
+        if(buscarUsu(player.getName()) != -1 ){
+            if(users.get(buscarUsu(player.getName())).isLogueado()) {
+                users.remove(buscarUsu(player.getName()));
+            }
         }
 
 
@@ -182,8 +184,9 @@ public class Manager implements Listener{
                             pereza(0, pos);
                             break;
                         case 8:
-                            users.get(pos).enviarYverificarContrasenia(player);
-                            eliminarUser(player.getName());
+                            if(users.get(pos).enviarYverificarContrasenia(player)) {
+                                eliminarUser(player.getName());
+                            }
                             break;
                         default:
                             // Código a ejecutar si variable no coincide con ninguno de los casos anteriores
