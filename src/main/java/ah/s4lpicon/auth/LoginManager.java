@@ -4,9 +4,7 @@ package ah.s4lpicon.auth;
 hola buenas, tengo un problema con un plugin que estoy haciendo de logueo con inventarios, toda la logica ya esta implementada y sirve como lo esperaba pero, la contraseña de los jugadores
  */
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -122,7 +120,7 @@ public class LoginManager implements Listener {
         }
     }
 
-    public void enviarYverificarContrasenia(Player player) {
+    public boolean enviarYverificarContrasenia(Player player) {
         if (pasword.size() == 5) {
             //envia y verifica la contraseña
 
@@ -130,27 +128,48 @@ public class LoginManager implements Listener {
                 //se esta logueando
                 if(pswm.verifyPassword(player.getName(), pasword.toString())) {
                     player.sendMessage("Logueado Correctamente");
-                    pasword.clear();
+                    utilidad();
+                    //LO MANDA PARA EL JUEGO PRUEBAS
+                    World world = player.getWorld(); // Obtener el mundo actual del jugador
+
+                    // Crear una nueva ubicación con las coordenadas especificadas
+                    Location location = new Location(world, player.getX(), player.getY()+7, player.getZ());
+                    player.teleport(location);
+                    //FIN DE LS PRUEBAS
+                    return true;
                 }
-                else player.sendMessage("Incorrecto");
+                else {
+                    player.sendMessage("Incorrecto");
+                    utilidad();
+                    return false;
+                }
 
             }else {
                 //se esta registrando
                 //intento de verificar si el usuario ya existe para no registrarlo nuevamente
                 if (!(pswm.existPlayer(player.getName()))){
                     pswm.addPassword(player.getName(), pasword.toString());
-                    player.sendMessage("Password to string"+pasword.toString());
+                    player.sendMessage("Jugador Registrado con exito!");
+                    utilidad();
+                    //LO MANDA PARA EL JUEGO
+                    return true;
                 }else {
                     player.sendMessage("Este Jugador ya ha sido registrado");
+                    utilidad();
+                    return false;
                 }
 
             }
 
+        } else {player.sendMessage("La contraseña debe tener 5 digitos.");}
+        chestInventory.close();
+        return false;
 
-            chestInventory.close();
-        } else {
-            player.sendMessage("La contraseña debe tener 5 digitos.");
-        }
+    }
+
+    public void utilidad(){
+        pasword.clear();
+        chestInventory.close();
     }
 
     public void abrirInvLog(Player player, String name) {

@@ -75,11 +75,7 @@ public class Manager implements Listener{
         // Teletransportar al jugador a la nueva ubicación
         event.getPlayer().teleport(location);
 
-
-
         users.get(buscarUsu(player.getName())).abrirInvLog(event.getPlayer(), null);
-        player.sendMessage("ALL USERS: "+users.toString());
-        player.sendMessage("POS: "+buscarUsu(player.getName()));
     }
 
     public static int buscarUsu(String name){
@@ -99,7 +95,6 @@ public class Manager implements Listener{
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
         player.getInventory().clear();
-        player.sendMessage("All users: "+ users);
         if(users.get(buscarUsu(player.getName()) ).isLogueado()){
             users.remove(buscarUsu(player.getName()));
         }
@@ -134,7 +129,6 @@ public class Manager implements Listener{
             event.setCancelled(true); // Evita que los ítems sean movidos
 
             int pos = buscarUsu(player.getName());
-            player.sendMessage("Pocision: "+pos);
             int x = event.getSlot();
             if (x == 18 || x == 19 || x == 27 || x == 28) {
                 //Iniciar Sesion
@@ -156,7 +150,6 @@ public class Manager implements Listener{
                     switch (event.getSlot()) {
                         case 15:
                             pereza(1, pos);
-                            player.sendMessage("Presiona el 1");
                             break;
                         case 16:
                             pereza(2, pos);
