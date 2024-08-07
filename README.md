@@ -23,7 +23,7 @@ al entrar un jugador le abre el inventario donde puede elegir:
   A login plugin for Minecraft Java
 
 Commands:
-/log -> open the logging and registration inventory<br>
+/logueo -> open the logging and registration inventory<br>
 /debuginfo -> shows useful information for development
 
 Info:
