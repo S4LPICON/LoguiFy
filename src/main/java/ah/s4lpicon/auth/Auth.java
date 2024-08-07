@@ -1,8 +1,11 @@
 package ah.s4lpicon.auth;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 import ah.s4lpicon.auth.CommandsManager;
 import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -12,10 +15,10 @@ public final class Auth extends JavaPlugin {
     @Override
     public void onEnable() {
         this.getCommand("logueo").setExecutor(new CommandsManager());
+        this.getCommand("debuginfo").setExecutor(new CommandsManager());
         // Registrar eventos
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new Manager(), this);
-        pm.registerEvents(new LoginManager(), this);
         saveResource("Passwords.yml", false);//guardar el archivo de vaina
         getLogger().info("El plugin se ha habilitado correctamente");
     }

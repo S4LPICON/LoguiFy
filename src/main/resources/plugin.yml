@@ -1,5 +1,5 @@
 name: Auth
-version: '${project.version}'
+version: '1.0'
 main: ah.s4lpicon.auth.Auth
 api-version: '1.21'
 author: S4LPICON
@@ -7,4 +7,7 @@ description: Holis
 commands:
   logueo:
     description: Muestra un mensaje al jugador.
+    usage: /<command>
+  debuginfo:
+    description: Información de depuración.
     usage: /<command>

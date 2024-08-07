@@ -29,6 +29,8 @@ public class LoginManager implements Listener {
     private boolean itsLogin;
 
     private PasswordManager pswm;
+
+    private Player jugador;
     private Inventory chestInventory;
 
     private ArrayList<Integer> pasword;
@@ -50,9 +52,41 @@ public class LoginManager implements Listener {
     ));
 
 
-    public LoginManager(){
+    @Override
+    public String toString() {
+        return "LoginManager{" +
+                "\nlogueado=" + logueado +
+                ", \nitsLogin=" + itsLogin +
+                ", \npswm=" + pswm +
+                ", \njugador=" + jugador +
+                ", \nchestInventory=" + chestInventory +
+                ", \npasword=" + pasword +
+                ", \nItemSlots=" + ItemSlots +
+                ", \nCustomModelData=" + CustomModelData +
+                ", \nNombres=" + Nombres +
+                "\n}";
+    }
+
+    public boolean isLogueado(){
+        return logueado;
+    }
+
+
+    public boolean isItsLogin(){
+        return itsLogin;
+    }
+    public void setItsLogin(boolean x){
+        itsLogin = x;
+    }
+
+    public String nombreJugador(){
+        return jugador.getName();
+    }
+
+    public LoginManager(Player player){
         pasword = new ArrayList<>();
         pswm = new PasswordManager();
+        jugador = player;
     }
 
     public void aniadirDigito(int num) {
@@ -137,96 +171,6 @@ public class LoginManager implements Listener {
             meta.setCustomModelData(CustomModelData.get(i));
             item.setItemMeta(meta);
             player.getInventory().setItem(ItemSlots.get(i), item); // Coloca la espada en la primera ranura
-        }
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        InventoryView inventoryView = event.getView();
-        Inventory inventory = inventoryView.getTopInventory();
-        Player player = (Player) event.getPlayer();
-
-        // Verificar si el inventario cerrado es el que queremos manejar
-        // Eliminar los ítems que agregamos anteriormente
-        for (int slot : ItemSlots) {
-            player.getInventory().clear(slot);
-        }
-
-    }
-
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-
-        // Asegúrate de que el inventario clickeado es el correcto
-        if (event.getView().getTitle() == "Seleciona Una opcion"
-                || event.getView().getTitle() == "Estas Iniciando Sesion"
-                || event.getView().getTitle() == "Estas Registrandote" ) {
-            // Obtén el jugador que hizo clic
-            Player player = (Player) event.getWhoClicked();
-            event.setCancelled(true); // Evita que los ítems sean movidos
-
-            int x = event.getSlot();
-            if (x == 18 || x == 19 || x == 27 || x == 28) {
-                //Iniciar Sesion
-                itsLogin = true;
-                cambioDeInv(player, "Estas Iniciando Sesion");
-            } else if (x == 21 || x == 22 || x == 30 || x == 31) {
-                //Registrarse
-                itsLogin = false;
-                cambioDeInv(player, "Estas Registrandote");
-            }
-            if (event.getView().getTitle().equals("Estas Iniciando Sesion") || event.getView().getTitle().equals("Estas Registrandote")) {
-
-                // Obtén el ítem clickeado
-                ItemStack clickedItem = event.getCurrentItem();
-
-                // Envía un mensaje al jugador
-                if (clickedItem != null && clickedItem.getType() != null) {
-
-                    switch (event.getSlot()) {
-                        case 15:
-                            aniadirDigito(1);
-                            break;
-                        case 16:
-                            aniadirDigito(2);
-                            break;
-                        case 17:
-                            aniadirDigito(3);
-                            break;
-                        case 24:
-                            aniadirDigito(4);
-                            break;
-                        case 25:
-                            aniadirDigito(5);
-                            break;
-                        case 26:
-                            aniadirDigito(6);
-                            break;
-                        case 33:
-                            aniadirDigito(7);
-                            break;
-                        case 34:
-                            aniadirDigito(8);
-                            break;
-                        case 35:
-                            aniadirDigito(9);
-                            break;
-                        case 6:
-                            eliminarDigito();
-                            break;
-                        case 7:
-                            aniadirDigito(0);
-                            break;
-                        case 8:
-                            enviarYverificarContrasenia(player);
-                            break;
-                        default:
-                            // Código a ejecutar si variable no coincide con ninguno de los casos anteriores
-                            break;
-                    }
-
-                }
-            }
         }
     }
 }

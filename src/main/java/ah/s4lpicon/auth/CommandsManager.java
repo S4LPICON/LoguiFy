@@ -1,32 +1,42 @@
 package ah.s4lpicon.auth;
 
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-public class CommandsManager implements CommandExecutor {
 
-    LoginManager lg;
+public class CommandsManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // Verifica si el comando es /logueo
         if (command.getName().equalsIgnoreCase("logueo")) {
-            // Verifica si el sender es un jugador
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                lg = new LoginManager();
-                // Envía un mensaje al jugador
-                lg.abrirInvLog(player, null);
+                // Asumiendo que Manager.abrirInv() es un método estático
+                Manager.abrirInv(player);
                 player.sendMessage("¡Has ejecutado el comando /logueo!");
                 return true;
             } else {
-                // Envía un mensaje al sender si no es un jugador
                 sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
                 return false;
             }
         }
+
+        if (command.getName().equalsIgnoreCase("debuginfo")) {
+            // Mostrar información de depuración
+            sender.sendMessage("Holis");
+
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                // Asumiendo que Manager.allDebugInfo() es un método estático
+                player.sendMessage("Debug info: " + Manager.allDebugInfo(player.getName()));
+                return true;
+            } else {
+                sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
+                return false;
+            }
+        }
+
         return false;
     }
 }
