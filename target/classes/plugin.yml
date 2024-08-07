@@ -1,0 +1,10 @@
+name: Auth
+version: '2.6.9'
+main: ah.s4lpicon.auth.Auth
+api-version: '1.21'
+author: S4LPICON
+description: Holis
+commands:
+  logueo:
+    description: Muestra un mensaje al jugador.
+    usage: /<command>
