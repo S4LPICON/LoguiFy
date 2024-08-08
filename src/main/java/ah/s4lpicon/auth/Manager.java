@@ -22,9 +22,6 @@ public class Manager implements Listener{
     //LoginManager lg;
     private static ArrayList<LoginManager> users = new ArrayList<>();
 
-    public static void aggUser(LoginManager user){
-        users.add(user);
-    }
 
     public static String allDebugInfo(String name){
         String txt = "All Users: " + users.toString() +
