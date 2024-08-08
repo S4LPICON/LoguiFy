@@ -21,7 +21,6 @@ public class Manager implements Listener{
 
     //LoginManager lg;
     private static ArrayList<LoginManager> users = new ArrayList<>();
-
     public static String allDebugInfo(String name){
         String txt = "All Users: " + users.toString() +
                 "\n Esta Logueado? "+ users.get(buscarUsu(name)).isLogueado() +
