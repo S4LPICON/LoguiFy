@@ -22,13 +22,13 @@ public class PasswordManager {
         config = YamlConfiguration.loadConfiguration(file);
     }
 
-    // Método para agregar una contraseña
+    // Method to add a password
     public void addPassword(String playerName, String password) {
         config.set("players." + playerName, password);
         saveConfig();
     }
 
-    // Método para guardar los cambios en el archivo
+    // Method to save changes to the file
     private void saveConfig() {
         try {
             config.save(file);
@@ -37,13 +37,13 @@ public class PasswordManager {
         }
     }
 
-    // Método para verificar una contraseña
+    // Method to verify a password
     public boolean verifyPassword(String playerName, String password) {
         String storedPassword = config.getString("players." + playerName);
         return password.equals(storedPassword);
     }
 
-    public boolean existPlayer(String playerName){
+    public boolean playerExists(String playerName) {
         return config.getString("players." + playerName) != null;
     }
 }

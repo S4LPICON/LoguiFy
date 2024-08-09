@@ -1,15 +1,13 @@
 package ah.s4lpicon.auth;
 
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
-import ah.s4lpicon.auth.CommandsManager;
 import org.bukkit.plugin.PluginManager;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+
 public final class Auth extends JavaPlugin {
 
     @Override
@@ -19,9 +17,10 @@ public final class Auth extends JavaPlugin {
         // Registrar eventos
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new Manager(), this);
-        saveResource("Passwords.yml", false);//guardar el archivo de vaina
+        saveResource("Passwords.yml", false); // Guardar el archivo de vaina
         getLogger().info("El plugin se ha habilitado correctamente");
     }
+
     // Método para guardar un recurso desde el JAR del plugin
     @Override
     public void saveResource(String resourcePath, boolean replace) {
@@ -32,7 +31,8 @@ public final class Auth extends JavaPlugin {
         resourcePath = resourcePath.replace('\\', '/');
         InputStream in = getResource(resourcePath);
         if (in == null) {
-            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + getFile());
+            throw new IllegalArgumentException(
+                    "The embedded resource '" + resourcePath + "' cannot be found in " + getFile());
         }
 
         File outFile = new File(getDataFolder(), resourcePath);
