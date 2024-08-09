@@ -24,21 +24,17 @@ public class LoginManager implements Listener {
     private ArrayList<Integer> password;
     private List<Integer> itemSlots = new ArrayList<>(Arrays.asList(
             15, 16, 17, 18, 19, 21, 22, 24, 25, 26,
-            27, 28, 30, 31, 33, 34, 35, 6, 7, 8
-    ));
+            27, 28, 30, 31, 33, 34, 35, 6, 7, 8));
 
     private List<Integer> customModelData = new ArrayList<>(Arrays.asList(
             15, 16, 17, 18, 19, 21, 22, 24, 25, 26,
-            27, 28, 30, 31, 33, 34, 35, 6, 7, 8
-    ));
+            27, 28, 30, 31, 33, 34, 35, 6, 7, 8));
 
     private List<String> names = new ArrayList<>(Arrays.asList(
             "1", "2", "3", "Log In", "Log In",
             "Register", "Register", "4", "5", "6",
             "Log In", "Log In", "Register", "Register", "7",
-            "8", "9", "Delete Digit", "0", "Submit"
-    ));
-
+            "8", "9", "Delete Digit", "0", "Submit"));
 
     @Override
     public String toString() {
@@ -93,7 +89,8 @@ public class LoginManager implements Listener {
     }
 
     public void deleteDigit() {
-        if (password.size() > 0 && password.get(0) != null) password.remove(password.size() - 1);
+        if (password.size() > 0 && password.get(0) != null)
+            password.remove(password.size() - 1);
         chestInventory.clear(password.size() + 2);
     }
 
