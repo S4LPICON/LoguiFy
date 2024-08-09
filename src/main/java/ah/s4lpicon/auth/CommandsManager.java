@@ -9,29 +9,31 @@ public class CommandsManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("logueo")) {
+        if (command.getName().equalsIgnoreCase("login")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                Manager.abrirInv(player);
-                player.sendMessage("¡Has ejecutado el comando /logueo!");
+                // Assuming Manager.openInventory() is a static method
+                Manager.openInventory(player);
+                player.sendMessage("You have executed the /login command!");
+
                 return true;
             } else {
-                sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
+                sender.sendMessage("This command can only be executed by a player.");
                 return false;
             }
         }
 
         if (command.getName().equalsIgnoreCase("debuginfo")) {
-            // Mostrar información de depuración
-            sender.sendMessage("Holis");
+            // Display debug information
+            sender.sendMessage("Hello!");
 
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                // Asumiendo que Manager.allDebugInfo() es un método estático
-                player.sendMessage("Debug info: " + Manager.allDebugInfo(player.getName()));
+                // Assuming Manager.allDebugInfo() is a static method
+                player.sendMessage("Debug info: " + Manager.getAllDebugInfo(player.getName()));
                 return true;
             } else {
-                sender.sendMessage("Este comando solo puede ser ejecutado por un jugador.");
+                sender.sendMessage("This command can only be executed by a player.");
                 return false;
             }
         }

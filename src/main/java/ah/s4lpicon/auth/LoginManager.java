@@ -1,19 +1,9 @@
 package ah.s4lpicon.auth;
 
-/*
-hola buenas, tengo un problema con un plugin que estoy haciendo de logueo con inventarios, toda la logica ya esta implementada y sirve como lo esperaba pero, la contraseña de los jugadores
- */
-
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,172 +13,165 @@ import java.util.List;
 
 public class LoginManager implements Listener {
 
-    private boolean logueado;
-    private boolean itsLogin;
+    private boolean loggedIn;
+    private boolean isLogin;
 
-    private PasswordManager pswm;
+    private PasswordManager passwordManager;
 
-    private Player jugador;
+    private Player player;
     private Inventory chestInventory;
 
-    private ArrayList<Integer> pasword;
-    private List<Integer> ItemSlots = new ArrayList<>(Arrays.asList(
+    private ArrayList<Integer> password;
+    private List<Integer> itemSlots = new ArrayList<>(Arrays.asList(
             15, 16, 17, 18, 19, 21, 22, 24, 25, 26,
-            27, 28, 30, 31, 33, 34, 35, 6, 7, 8
-    ));
+            27, 28, 30, 31, 33, 34, 35, 6, 7, 8));
 
-    private List<Integer> CustomModelData = new ArrayList<>(Arrays.asList(
+    private List<Integer> customModelData = new ArrayList<>(Arrays.asList(
             15, 16, 17, 18, 19, 21, 22, 24, 25, 26,
-            27, 28, 30, 31, 33, 34, 35, 6, 7, 8
-    ));
+            27, 28, 30, 31, 33, 34, 35, 6, 7, 8));
 
-    private List<String> Nombres = new ArrayList<>(Arrays.asList(
-            "1", "2", "3", "Iniciar Sesion", "Iniciar Sesion",
-            "Registrarse", "Registrarse", "4", "5", "6",
-            "Iniciar Sesion", "Iniciar Sesion", "Registrarse", "Registrarse", "7",
-            "8", "9", "Eliminar Digito", "0", "Enviar"
-    ));
-
+    private List<String> names = new ArrayList<>(Arrays.asList(
+            "1", "2", "3", "Log In", "Log In",
+            "Register", "Register", "4", "5", "6",
+            "Log In", "Log In", "Register", "Register", "7",
+            "8", "9", "Delete Digit", "0", "Submit"));
 
     @Override
     public String toString() {
         return "LoginManager{" +
-                "\nlogueado=" + logueado +
-                ", \nitsLogin=" + itsLogin +
-                ", \npswm=" + pswm +
-                ", \njugador=" + jugador +
+                "\nloggedIn=" + loggedIn +
+                ", \nisLogin=" + isLogin +
+                ", \npasswordManager=" + passwordManager +
+                ", \nplayer=" + player +
                 ", \nchestInventory=" + chestInventory +
-                ", \npasword=" + pasword +
-                ", \nItemSlots=" + ItemSlots +
-                ", \nCustomModelData=" + CustomModelData +
-                ", \nNombres=" + Nombres +
+                ", \npassword=" + password +
+                ", \nitemSlots=" + itemSlots +
+                ", \ncustomModelData=" + customModelData +
+                ", \nnames=" + names +
                 "\n}";
     }
 
-    public boolean isLogueado(){
-        return logueado;
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
-
-    public boolean isItsLogin(){
-        return itsLogin;
-    }
-    public void setItsLogin(boolean x){
-        itsLogin = x;
+    public boolean isLoggingIn() {
+        return isLogin;
     }
 
-    public String nombreJugador(){
-        return jugador.getName();
+    public void setLoggingIn(boolean isLogin) {
+        this.isLogin = isLogin;
     }
 
-    public LoginManager(Player player){
-        pasword = new ArrayList<>();
-        pswm = new PasswordManager();
-        jugador = player;
+    public String getPlayerName() {
+        return player.getName();
     }
 
-    public void aniadirDigito(int num) {
-        if (pasword.size() < 5) {
-            pasword.add(num);
-            actualizarVisualizacionPasword();
+    public LoginManager(Player player) {
+        password = new ArrayList<>();
+        passwordManager = new PasswordManager();
+        this.player = player;
+    }
+
+    public void addDigit(int num) {
+        if (password.size() < 5) {
+            password.add(num);
+            updatePasswordDisplay();
         }
     }
 
-    public void cambioDeInv(Player player, String name) {
-        pasword.clear();
-        // Cerrar el inventario antiguo
+    public void changeInventory(Player player, String name) {
+        password.clear();
+        // Close the old inventory
         player.closeInventory();
-        // Crear un nuevo inventario con el nuevo nombre (de una sola línea)
-        abrirInvLog(player, name);
+        // Create a new inventory with the new name (one-liner)
+        openLoginInventory(player, name);
     }
 
-    public void eliminarDigito() {
-        if (pasword.size()>0 && pasword.get(0) != null) pasword.remove(pasword.size() - 1);
-        chestInventory.clear(pasword.size() + 2);
+    public void deleteDigit() {
+        if (password.size() > 0 && password.get(0) != null)
+            password.remove(password.size() - 1);
+        chestInventory.clear(password.size() + 2);
     }
 
-    public void actualizarVisualizacionPasword() {
-        for (int i = 0; i < pasword.size(); i++) {
-            if (pasword.get(i) != null) {
+    @SuppressWarnings("deprecation")
+    public void updatePasswordDisplay() {
+        for (int i = 0; i < password.size(); i++) {
+            if (password.get(i) != null) {
                 ItemStack item = new ItemStack(Material.PRISMARINE_SHARD, 1);
                 ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(ChatColor.WHITE + "" + pasword.get(i));
-                meta.setCustomModelData(CustomModelData.get(i));
+                meta.setDisplayName(ChatColor.WHITE + "" + password.get(i));
+                meta.setCustomModelData(customModelData.get(i));
                 item.setItemMeta(meta);
                 chestInventory.setItem(i + 2, item);
             }
         }
     }
 
-    public boolean enviarYverificarContrasenia(Player player) {
-        if (pasword.size() == 5) {
-            //envia y verifica la contraseña
+    public boolean sendAndVerifyPassword(Player player) {
+        if (password.size() == 5) {
+            // Send and verify the password
 
-            if (itsLogin){
-                //se esta logueando
-                if(pswm.verifyPassword(player.getName(), pasword.toString())) {
-                    player.sendMessage("Logueado Correctamente");
-                    utilidad();
-                    //LO MANDA PARA EL JUEGO PRUEBAS
-                    World world = player.getWorld(); // Obtener el mundo actual del jugador
+            if (isLogin) {
+                // Logging in
+                if (passwordManager.verifyPassword(player.getName(), password.toString())) {
+                    player.sendMessage("Successfully Logged In");
+                    reset();
+                    // TELEPORT TO THE GAME (TESTING)
+                    World world = player.getWorld(); // Get the player's current world
 
-                    // Crear una nueva ubicación con las coordenadas especificadas
-                    Location location = new Location(world, player.getX(), player.getY()+7, player.getZ());
+                    // Create a new location with the specified coordinates
+                    Location location = new Location(world, player.getX(), player.getY() + 7, player.getZ());
                     player.teleport(location);
-                    //FIN DE LS PRUEBAS
+                    // END OF TESTING
                     return true;
-                }
-                else {
-                    player.sendMessage("Incorrecto");
-                    utilidad();
+                } else {
+                    player.sendMessage("Incorrect Password");
+                    reset();
                     return false;
                 }
 
-            }else {
-                //se esta registrando
-                //intento de verificar si el usuario ya existe para no registrarlo nuevamente
-                if (!(pswm.existPlayer(player.getName()))){
-                    pswm.addPassword(player.getName(), pasword.toString());
-                    player.sendMessage("Jugador Registrado con exito!");
-                    utilidad();
-                    //LO MANDA PARA EL JUEGO
+            } else {
+                // Registering
+                // Attempt to verify if the user already exists to prevent re-registration
+                if (!passwordManager.playerExists(player.getName())) {
+                    passwordManager.addPassword(player.getName(), password.toString());
+                    player.sendMessage("Player Successfully Registered!");
+                    reset();
+                    // TELEPORT TO THE GAME
                     return true;
-                }else {
-                    player.sendMessage("Este Jugador ya ha sido registrado");
-                    utilidad();
+                } else {
+                    player.sendMessage("This Player Has Already Been Registered");
+                    reset();
                     return false;
                 }
-
             }
-
-        } else {player.sendMessage("La contraseña debe tener 5 digitos.");}
+        } else {
+            player.sendMessage("The password must have 5 digits.");
+        }
         return false;
-
     }
 
-    public void utilidad(){
-        pasword.clear();
+    public void reset() {
+        password.clear();
         chestInventory.close();
     }
 
-    public void abrirInvLog(Player player, String name) {
+    @SuppressWarnings("deprecation")
+    public void openLoginInventory(Player player, String name) {
         if (name == null) {
-            name = "Seleciona Una opcion";
+            name = "Select an Option";
         }
         chestInventory = Bukkit.createInventory(null, 9, name);
-        // Abrir una tolva (hopper) para el jugador
-        //Inventory hopperInventory = Bukkit.createInventory(null, InventoryType.HOPPER, "Logueo");
-
-
         player.openInventory(chestInventory);
 
-        for (int i = 0; i < ItemSlots.size(); i++) {
+        for (int i = 0; i < itemSlots.size(); i++) {
             ItemStack item = new ItemStack(Material.PRISMARINE_SHARD, 1);
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.WHITE + Nombres.get(i));
-            meta.setCustomModelData(CustomModelData.get(i));
+            meta.setDisplayName(ChatColor.WHITE + names.get(i));
+            meta.setCustomModelData(customModelData.get(i));
             item.setItemMeta(meta);
-            player.getInventory().setItem(ItemSlots.get(i), item); // Coloca la espada en la primera ranura
+            player.getInventory().setItem(itemSlots.get(i), item);
         }
     }
 }
