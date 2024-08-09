@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Auth:jar">
-    <output-path>$PROJECT_DIR$/../../.A MCzofrenic Network Projet/2 AUTH/plugins</output-path>
-    <root id="archive" name="Auth.jar">
-      <element id="module-output" name="Auth" />
-    </root>
-  </artifact>
-</component>

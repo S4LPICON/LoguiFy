@@ -1,4 +1,5 @@
-*.xml
+pom.xml
 target
 .vscode
 .idea
+README.md
