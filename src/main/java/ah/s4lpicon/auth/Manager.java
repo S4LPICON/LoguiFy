@@ -18,6 +18,8 @@ public class Manager implements Listener {
 
     private static ArrayList<LoginManager> users = new ArrayList<>();
 
+    //hola
+
     public static String getAllDebugInfo(String name) {
         String info = "All Users: " + users.toString() +
                 "\n Is Logged In?: " + users.get(findUser(name)).isLoggedIn() +
