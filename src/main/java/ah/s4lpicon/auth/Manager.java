@@ -21,13 +21,10 @@ public class Manager implements Listener{
 
     //LoginManager lg;
     private static ArrayList<LoginManager> users = new ArrayList<>();
-
-
     public static String allDebugInfo(String name){
         String txt = "All Users: " + users.toString() +
-                "\n Esta Logueado? "+ users.get(buscarUsu(name)).isLogueado() +
-                "\n Esta iniciando sesion? " + users.get(buscarUsu(name)).isItsLogin()+
-                "\n INFO ALEATORIA (To String)" + users.get(buscarUsu(name)).toString();
+                "\n Esta Logueado?: "+ users.get(buscarUsu(name)).isLogueado() +
+                "\n Esta iniciando sesion?: " + users.get(buscarUsu(name)).isItsLogin();
         return txt;
     }
 

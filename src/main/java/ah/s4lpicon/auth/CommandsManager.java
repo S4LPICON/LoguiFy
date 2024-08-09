@@ -12,7 +12,6 @@ public class CommandsManager implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("logueo")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                // Asumiendo que Manager.abrirInv() es un método estático
                 Manager.abrirInv(player);
                 player.sendMessage("¡Has ejecutado el comando /logueo!");
                 return true;
