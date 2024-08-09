@@ -15,6 +15,7 @@ public class CommandsManager implements CommandExecutor {
                 // Assuming Manager.openInventory() is a static method
                 Manager.openInventory(player);
                 player.sendMessage("You have executed the /login command!");
+
                 return true;
             } else {
                 sender.sendMessage("This command can only be executed by a player.");
